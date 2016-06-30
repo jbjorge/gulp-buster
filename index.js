@@ -13,6 +13,7 @@ var DEFAULT_OPTIONS = {
 	length: 0,
 	transform: Object,
 	formatter: JSON.stringify,
+	merge: true
 };
 var OPTION_TYPES = {
 	fileName: ['String'],
@@ -20,6 +21,7 @@ var OPTION_TYPES = {
 	length: ['Number'],
 	transform: ['Function'],
 	formatter: ['Function'],
+	merge: ['Boolean']
 };
 var hashesStore = {}; // options.fileName: { relativePath: hash }
 
@@ -64,6 +66,9 @@ function assignOptions(options) {
 
 module.exports = exports = function(options) {
 	options = assignOptions(options);
+	if (!options.merge)
+		hashesStore = {};
+
 	var hashes = hashesStore[options.fileName] = hashesStore[options.fileName] || {},
 		hashingPromises = [];
 
